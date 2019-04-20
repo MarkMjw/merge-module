@@ -3,26 +3,21 @@ apply from: "config.gradle"
 buildscript {
 
     repositories {
-        maven {
-            //替换自己搭建的私服 如: http://127.0.0.1:8081/nexus/content/repositories/releases
-            url uri("/home/byhook/android/maven")
-        }
-        mavenCentral()
+        maven { url uri("./repo") }
+        maven { url 'https://maven.google.com/' }
+        // google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-
     }
 }
 
 allprojects {
     repositories {
-        maven {
-            //替换自己搭建的私服
-            url uri("/home/byhook/android/maven")
-        }
-        mavenCentral()
+        maven { url uri("../repo") }
+        maven { url 'https://maven.google.com/' }
+        // google()
         jcenter()
     }
 }

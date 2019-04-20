@@ -28,8 +28,8 @@
 
 import com.android.annotations.NonNull
 import com.android.manifmerger.ManifestMerger2
-import com.android.manifmerger.ManifestMerger2.Invoker
-import com.android.manifmerger.ManifestMerger2.MergeType
+import static com.android.manifmerger.ManifestMerger2.Invoker
+import static com.android.manifmerger.ManifestMerger2.MergeType
 import com.android.manifmerger.MergingReport
 import com.android.manifmerger.PlaceholderEncoder
 import com.android.manifmerger.XmlDocument
@@ -76,29 +76,29 @@ ext.embeddedAarFiles = new ArrayList<ResolvedArtifact>()
 ext.embeddedRClasses = new ArrayList()
 
 // Change backslash to forward slash on windows
-ext.build_dir = buildDir.path.replace(File.separator, '/');
-ext.root_dir = project.rootDir.absolutePath.replace(File.separator, '/');
-ext.exploded_aar_dir = "$build_dir/intermediates/exploded-aar";
-ext.classs_release_dir = "$build_dir/intermediates/classes/release";
-ext.bundle_release_dir = "$build_dir/intermediates/bundles/release";
-ext.manifest_aaapt_dir = "$build_dir/intermediates/manifests/aapt/release";
-ext.generated_rsrc_dir = "$build_dir/generated/source/r/release";
+ext.build_dir = buildDir.path.replace(File.separator, '/')
+ext.root_dir = project.rootDir.absolutePath.replace(File.separator, '/')
+ext.exploded_aar_dir = "$build_dir/intermediates/exploded-aar"
+ext.classs_release_dir = "$build_dir/intermediates/classes/release"
+ext.bundle_release_dir = "$build_dir/intermediates/bundles/release"
+ext.manifest_aaapt_dir = "$build_dir/intermediates/manifests/aapt/release"
+ext.generated_rsrc_dir = "$build_dir/generated/source/r/release"
 
-ext.base_r2x_dir = "$build_dir/fat-aar/release/";
+ext.base_r2x_dir = "$build_dir/fat-aar/release/"
 
-def gradleVersionStr = GradleVersion.current().getVersion();
+def gradleVersionStr = GradleVersion.current().getVersion()
 
 //2.2以上api有变动,报错
-ext.gradleApiVersion = "2.2".toFloat();//gradleVersionStr.substring(0, gradleVersionStr.lastIndexOf(".")).toFloat();
+ext.gradleApiVersion = "2.2".toFloat()//gradleVersionStr.substring(0, gradleVersionStr.lastIndexOf(".")).toFloat()
 
-println "Gradle version: " + gradleVersionStr;
+println "Gradle version: " + gradleVersionStr
 
 afterEvaluate {
     // the list of dependency must be reversed to use the right overlay order.
     def dependencies = new ArrayList(configurations.embedded.resolvedConfiguration.firstLevelModuleDependencies)
     dependencies.reverseEach {
 
-        def aarPath;
+        def aarPath
         if (gradleApiVersion >= 2.3f)
             aarPath = "${root_dir}/${it.moduleName}/build/intermediates/bundles/default"
         else
@@ -153,7 +153,7 @@ afterEvaluate {
             ext.bundle_release_dir = "$build_dir/intermediates/bundles/default"
         } else {
             embedJniLibs.dependsOn transformNative_libsWithSyncJniLibsForRelease
-            ext.bundle_release_dir = "$build_dir/intermediates/bundles/release";
+            ext.bundle_release_dir = "$build_dir/intermediates/bundles/release"
         }
 
         // Merge Embedded Manifests
@@ -234,10 +234,10 @@ private List getMergedInputResourceSets(List inputResourceSet) {
                 println "end"
                 println endIndex
                 if (startIndex < 1 || endIndex < 1)
-                    return;
+                    return
                 resname = aarPath.substring(startIndex, endIndex).replace('/', ':')
             } else
-                resname = (aarPath.split(exploded_aar_dir)[1]).replace('/', ':');
+                resname = (aarPath.split(exploded_aar_dir)[1]).replace('/', ':')
 
             FileTree libRes = fileTree(dir: "$aarPath/res", include: '**/*.xml')
             libRes.each { File file ->
@@ -253,8 +253,8 @@ private List getMergedInputResourceSets(List inputResourceSet) {
             println "$aarPath/res"
             newInputResourceSet += rs
         } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace()
+            throw e
         }
     }
 
@@ -286,8 +286,8 @@ task embedProguard << {
             if (proguardLibFile.exists())
                 proguardRelease.append("\n" + proguardLibFile.text)
         } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+            e.printStackTrace()
+            throw e
         }
     }
 }
@@ -297,8 +297,8 @@ task generateRJava << {
     println "Running FAT-AAR Task :generateRJava"
 
     // Now generate the R.java file for each embedded dependency
-    def mainManifestFile = android.sourceSets.main.manifest.srcFile;
-    def libPackageName = "";
+    def mainManifestFile = android.sourceSets.main.manifest.srcFile
+    def libPackageName = ""
 
     if (mainManifestFile.exists()) {
 
@@ -307,13 +307,13 @@ task generateRJava << {
 
     embeddedAarDirs.each { aarPath ->
 
-        def manifestFile = file("$aarPath/AndroidManifest.xml");
+        def manifestFile = file("$aarPath/AndroidManifest.xml")
         if (!manifestFile.exists()) {
-            manifestFile = file("./src/main/AndroidManifest.xml");
+            manifestFile = file("./src/main/AndroidManifest.xml")
         }
 
         if (manifestFile.exists()) {
-            def aarManifest = new XmlParser().parse(manifestFile);
+            def aarManifest = new XmlParser().parse(manifestFile)
             def aarPackageName = aarManifest.@package
 
             String packagePath = aarPackageName.replace('.', '/')
@@ -398,7 +398,7 @@ task embedJavaJars(dependsOn: embedRClass) << {
 
             embeddedAarFiles.each {
                 artifact ->
-                    FileTree aarFileTree = zipTree(artifact.file.getAbsolutePath());
+                    FileTree aarFileTree = zipTree(artifact.file.getAbsolutePath())
 
                     def aarFile = aarFileTree.files.find { it.name.contains("classes.jar") }
 
@@ -480,7 +480,7 @@ task embedManifests << {
     }
 
     if (!origManifest.exists()) {
-        return;
+        return
     }
 
     copy {
@@ -496,50 +496,50 @@ task embedManifests << {
         manifestMergerInvoker.addLibraryManifests(libraryManifests.toArray(new File[libraryManifests.size()]))
 
         // manifestMergerInvoker.setPlaceHolderValues(placeHolders)
-        manifestMergerInvoker.setMergeReportFile(reportFile);
+        manifestMergerInvoker.setMergeReportFile(reportFile)
 
-        MergingReport mergingReport = manifestMergerInvoker.merge();
+        MergingReport mergingReport = manifestMergerInvoker.merge()
 
-        mLogger.info("Merging result:" + mergingReport.getResult());
-        MergingReport.Result result = mergingReport.getResult();
+        mLogger.info("Merging result:" + mergingReport.getResult())
+        MergingReport.Result result = mergingReport.getResult()
         switch (result) {
             case MergingReport.Result.WARNING:
-                mergingReport.log(mLogger);
+                mergingReport.log(mLogger)
         // fall through since these are just warnings.
             case MergingReport.Result.SUCCESS:
-                XmlDocument xmlDocument = mergingReport.getMergedXmlDocument(MergingReport.MergedManifestKind.MERGED);
+                XmlDocument xmlDocument = mergingReport.getMergedXmlDocument(MergingReport.MergedManifestKind.MERGED)
                 try {
-                    String annotatedDocument = mergingReport.getActions().blame(xmlDocument);
-                    mLogger.verbose(annotatedDocument);
+                    String annotatedDocument = mergingReport.getActions().blame(xmlDocument)
+                    mLogger.verbose(annotatedDocument)
                 } catch (Exception e) {
-                    mLogger.error(e, "cannot print resulting xml");
+                    mLogger.error(e, "cannot print resulting xml")
                 }
-                save(xmlDocument, origManifest);
-                mLogger.info("Merged manifest saved to " + origManifest);
+                save(xmlDocument, origManifest)
+                mLogger.info("Merged manifest saved to " + origManifest)
                 if (aaptManifest.exists()) {
-                    new PlaceholderEncoder().visit(xmlDocument);
-                    save(xmlDocument, aaptManifest);
-                    mLogger.info("Merged aapt safe manifest saved to " + aaptManifest);
+                    new PlaceholderEncoder().visit(xmlDocument)
+                    save(xmlDocument, aaptManifest)
+                    mLogger.info("Merged aapt safe manifest saved to " + aaptManifest)
                 }
-                break;
+                break
             case MergingReport.Result.ERROR:
-                mergingReport.log(mLogger);
-                throw new RuntimeException(mergingReport.getReportString());
+                mergingReport.log(mLogger)
+                throw new RuntimeException(mergingReport.getReportString())
             default:
-                throw new RuntimeException("Unhandled result type : " + mergingReport.getResult());
+                throw new RuntimeException("Unhandled result type : " + mergingReport.getResult())
         }
     } catch (RuntimeException e) {
         // Unacceptable error
         e.printStackTrace()
-        throw new RuntimeException(e);
+        throw new RuntimeException(e)
     }
 }
 
 private void save(XmlDocument xmlDocument, File out) {
     try {
-        Files.write(xmlDocument.prettyPrint(), out, Charsets.UTF_8);
+        Files.write(xmlDocument.prettyPrint(), out, Charsets.UTF_8)
     } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException(e)
     }
 }
 
