@@ -1,5 +1,5 @@
-//package com.weibo.plugin
-//
+package com.weibo.plugin.mobbeel
+
 //import groovy.xml.XmlUtil
 //import org.gradle.api.DefaultTask
 //import org.gradle.api.Project
