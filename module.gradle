@@ -19,13 +19,6 @@ android {
     }
 }
 
-repositories {
-    jcenter()
-    flatDir {
-        dirs 'libs', "$rootDir/liveroom/libs"
-    }
-}
-
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
 

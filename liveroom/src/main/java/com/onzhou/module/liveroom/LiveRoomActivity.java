@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * @author: andy
  * @date: 2018-06-19
@@ -31,5 +33,8 @@ public class LiveRoomActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         ImageView imageView = findViewById(R.id.iv_main);
         Glide.with(this).load("http://cdn.byhook.cn/0fc87e6251577216b34ec31f1f76ffdd-320_320.jpg").into(imageView);
+
+        CircleImageView image = findViewById(R.id.iv_circle);
+        Glide.with(this).load("http://cdn.byhook.cn/0fc87e6251577216b34ec31f1f76ffdd-320_320.jpg").into(image);
     }
 }

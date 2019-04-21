@@ -1,16 +1,14 @@
 apply from: '../module.gradle'
 
-
 repositories {
-    jcenter()
     flatDir {
         dirs "$rootDir/liveroom/libs"
     }
 }
 
-
 dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 
     implementation project(':common')
     implementation project(':download')
