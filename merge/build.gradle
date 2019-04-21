@@ -31,8 +31,11 @@ def getArtifactFileName() {
 }
 
 dependencies {
+    // 依赖module的上游依赖需要完整的列出来，需要打包进AAR的同样使用embedded
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    embedded 'com.google.code.gson:gson:2.8.5'
 
+    // 依赖module的所有上游依赖module完整列出
     embedded project(path: ':common', configuration: 'default')
     embedded project(path: ':upload', configuration: 'default')
     embedded project(path: ':download', configuration: 'default')

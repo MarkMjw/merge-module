@@ -3,4 +3,5 @@ apply from: '../module.gradle'
 dependencies {
     implementation project(':common')
     implementation project(':upload')
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

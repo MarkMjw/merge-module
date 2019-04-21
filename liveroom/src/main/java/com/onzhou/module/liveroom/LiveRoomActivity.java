@@ -29,7 +29,7 @@ public class LiveRoomActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        ImageView imageView = (ImageView) findViewById(R.id.iv_main);
-        Glide.with(this).load("https://cdn.byhook.cn/0fc87e6251577216b34ec31f1f76ffdd-320_320.jpg").into(imageView);
+        ImageView imageView = findViewById(R.id.iv_main);
+        Glide.with(this).load("http://cdn.byhook.cn/0fc87e6251577216b34ec31f1f76ffdd-320_320.jpg").into(imageView);
     }
 }
