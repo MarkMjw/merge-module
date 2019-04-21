@@ -1,10 +1,11 @@
 apply from: '../module.gradle'
 
 //apply from: 'fat-aar.gradle'
-//apply from: 'maven_publish.gradle'
+apply from: 'maven_publish.gradle'
 
 apply plugin: 'com.weibo.plugin'
-apply from: 'publish.gradle'
+// 这个发布有问题，执行uploadArchives会自动assembleRelease，导致打出来的包没有包括R文件
+//apply from: 'publish.gradle'
 
 android {
 
