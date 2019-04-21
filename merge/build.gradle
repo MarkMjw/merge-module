@@ -1,19 +1,26 @@
 apply from: '../module.gradle'
 
-apply from: '../fat-aar.gradle'
+//apply from: '../fat-aar.gradle'
 
 apply from: '../publish.gradle'
+
+apply plugin: 'com.weibo.plugin'
 
 android {
 
     libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.aar')) {
-                def fileName = getArtifactFileName()
-                output.outputFile = new File(outputFile.parent, fileName)
+        variant.outputs.all {
+            if ('release' == variant.buildType.name) {
+                outputFileName = getArtifactFileName()
             }
         }
+//        variant.outputs.each { output ->
+//            def outputFile = output.outputFile
+//            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+//                def fileName = getArtifactFileName()
+//                output.outputFile = new File(outputFile.parent, fileName)
+//            }
+//        }
     }
 
 }
@@ -23,11 +30,13 @@ def getArtifactFileName() {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    embedded project(':common')
-    embedded project(':upload')
-    embedded project(':download')
-    embedded project(':video')
-    embedded project(':liveroom')
+    embedded project(path: ':common', configuration: 'default')
+    embedded project(path: ':upload', configuration: 'default')
+    embedded project(path: ':download', configuration: 'default')
+    embedded project(path: ':video', configuration: 'default')
+    embedded project(path: ':liveroom', configuration: 'default')
 }
+
+//aarPlugin {
+//    includeAllInnerDependencies false
+//}

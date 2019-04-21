@@ -13,7 +13,6 @@ ext {
     ]
 
     dependencies = [
-            "design"      : 'com.android.support:design:27.1.1',
             "appcompat-v7": 'com.android.support:appcompat-v7:27.1.1',
             "multidex"    : "com.android.support:multidex:1.0.1",
     ]

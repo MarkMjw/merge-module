@@ -1,0 +1,29 @@
+apply plugin: 'maven'
+
+def projectDesc = 'This is a gradle plugin that helps to output fat aar from android library.'
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    group BasePlugin.BUILD_GROUP
+    description = 'Assembles a jar archive containing the main sources of this project.'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+            pom.project {
+                name 'weibo-fataar'
+                description projectDesc
+                groupId GROUP
+                version VERSION_NAME
+            }
+        }
+    }
+}
+

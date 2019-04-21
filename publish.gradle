@@ -12,14 +12,14 @@ publishing {
 
             artifact "${project.buildDir}/outputs/aar/${getArtifactFileName()}" //bundleRelease
 
-            List<String> embedList = new ArrayList<>();
+            List<String> embedList = new ArrayList<>()
             Map<String, ResolvedDependency> depList = new LinkedHashMap<>();
 
             //List all embedded dependencies
-            configurations.embedded.allDependencies.each {
-                def depName = String.format("%s:%s", it.group, it.name)
-                embedList.add(depName);
-            }
+//            configurations.embedded.allDependencies.each {
+//                def depName = String.format("%s:%s", it.group, it.name)
+//                embedList.add(depName)
+//            }
 
             //Collect all first level dependencies except embedded ones
             configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
@@ -31,16 +31,16 @@ publishing {
             }
 
             //Collect all second level dependencies of embedded ones
-            configurations.embedded.resolvedConfiguration.firstLevelModuleDependencies.each {
-                //Second Level Depenencies
-                it.children.each {
-                    ResolvedDependency dep ->
-                        def depName = String.format("%s:%s", dep.moduleGroup, dep.moduleName)
-                        if (!embedList.contains(depName) && !depList.containsKey(depName)) {
-                            depList.put(depName, dep)
-                        }
-                }
-            }
+//            configurations.embedded.resolvedConfiguration.firstLevelModuleDependencies.each {
+//                //Second Level Depenencies
+//                it.children.each {
+//                    ResolvedDependency dep ->
+//                        def depName = String.format("%s:%s", dep.moduleGroup, dep.moduleName)
+//                        if (!embedList.contains(depName) && !depList.containsKey(depName)) {
+//                            depList.put(depName, dep)
+//                        }
+//                }
+//            }
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
@@ -49,8 +49,8 @@ publishing {
                 depList.values().each {
                     ResolvedDependency dep ->
                         def hasGroup = dep.moduleGroup != null
-                        def hasName = (dep.moduleName != null && !"unspecified".equals(dep.moduleName) && !"".equals(dep.moduleVersion))
-                        def hasVersion = (dep.moduleVersion != null && !"".equals(dep.moduleVersion) && !"unspecified".equals(dep.moduleVersion))
+                        def hasName = (dep.moduleName != null && "unspecified" != dep.moduleName && "" != dep.moduleVersion)
+                        def hasVersion = (dep.moduleVersion != null && "" != dep.moduleVersion && "unspecified" != dep.moduleVersion)
 
                         if (hasGroup && hasName && hasVersion) {
                             def dependencyNode = dependenciesNode.appendNode('dependency')

@@ -28,9 +28,11 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:27.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 
     //先在merge目录下执行合并gradle clean asR,右侧栏目gradle选择发布到maven,再进行依赖
-    compile 'com.onzhou.module:merge:1.0.2'
+    implementation 'com.onzhou.module:merge:1.0.3'
+//    implementation project(':merge')
 }
