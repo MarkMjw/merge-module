@@ -3,22 +3,20 @@ apply from: "config.gradle"
 buildscript {
 
     repositories {
-//        maven { url uri("./repo") }
-        maven { url 'https://maven.google.com/' }
-        // google()
+        maven { url uri("./repo") }
+        google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
-//        classpath 'com.mobbeel.plugin:fat-aar:2.0.3'
+//        classpath 'com.weibo.plugin:fat-aar:1.0.0'
     }
 }
 
 allprojects {
     repositories {
         maven { url uri("../repo") }
-        maven { url 'https://maven.google.com/' }
-        // google()
+        google()
         jcenter()
     }
 }

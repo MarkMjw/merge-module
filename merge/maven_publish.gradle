@@ -1,13 +1,10 @@
-////////////////////////////////////////////
-//////////// MAVEN PUBLISHING //////////////
-////////////////////////////////////////////
-apply plugin: 'maven-publish'
+apply plugin: 'maven-maven_publish'
 
 publishing {
     publications {
         androidLibs(MavenPublication) {
             groupId = GROUP
-            artifactId POM_ARTIFACT_ID
+            artifactId ARTIFACT_ID
             version = VERSION_NAME
 
             artifact "${project.buildDir}/outputs/aar/${getArtifactFileName()}" //bundleRelease
@@ -16,10 +13,10 @@ publishing {
             Map<String, ResolvedDependency> depList = new LinkedHashMap<>();
 
             //List all embedded dependencies
-//            configurations.embedded.allDependencies.each {
-//                def depName = String.format("%s:%s", it.group, it.name)
-//                embedList.add(depName)
-//            }
+            configurations.embedded.allDependencies.each {
+                def depName = String.format("%s:%s", it.group, it.name)
+                embedList.add(depName)
+            }
 
             //Collect all first level dependencies except embedded ones
             configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
@@ -31,16 +28,16 @@ publishing {
             }
 
             //Collect all second level dependencies of embedded ones
-//            configurations.embedded.resolvedConfiguration.firstLevelModuleDependencies.each {
-//                //Second Level Depenencies
-//                it.children.each {
-//                    ResolvedDependency dep ->
-//                        def depName = String.format("%s:%s", dep.moduleGroup, dep.moduleName)
-//                        if (!embedList.contains(depName) && !depList.containsKey(depName)) {
-//                            depList.put(depName, dep)
-//                        }
-//                }
-//            }
+            configurations.embedded.resolvedConfiguration.firstLevelModuleDependencies.each {
+                //Second Level Depenencies
+                it.children.each {
+                    ResolvedDependency dep ->
+                        def depName = String.format("%s:%s", dep.moduleGroup, dep.moduleName)
+                        if (!embedList.contains(depName) && !depList.containsKey(depName)) {
+                            depList.put(depName, dep)
+                        }
+                }
+            }
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
