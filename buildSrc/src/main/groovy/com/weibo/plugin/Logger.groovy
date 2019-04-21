@@ -3,10 +3,10 @@ package com.weibo.plugin
 class Logger {
 
     def static e(def msg) {
-        println("【Fat-aar-ERROR】${msg}")
+        println("【ERROR】${msg}")
     }
 
     def static i(def msg) {
-        println("【Fat-aar-INFO】${msg}")
+        println("【INFO】${msg}")
     }
 }

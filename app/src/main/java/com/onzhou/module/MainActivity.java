@@ -25,9 +25,7 @@ public class MainActivity extends AppCompatActivity {
         UploadActivity.intentStart(this);
     }
 
-
     public void onLiveClick(View view) {
-
         LiveRoomActivity.intentStart(this);
     }
 

@@ -31,6 +31,8 @@ def getArtifactFileName() {
 }
 
 dependencies {
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+
     embedded project(path: ':common', configuration: 'default')
     embedded project(path: ':upload', configuration: 'default')
     embedded project(path: ':download', configuration: 'default')

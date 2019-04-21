@@ -35,7 +35,6 @@ class DependencyPlugin implements Plugin<Project> {
                 processVariant(variant)
             }
         }
-
     }
 
     private void checkAndroidPlugin() {
